@@ -2,33 +2,24 @@ pipeline {
     agent any
 
     stages {
-
         stage('Checkout') {
             steps {
                 checkout scm
             }
         }
-
         stage('Build') {
             steps {
-                sh 'mvn clean install'
+                bat 'mvn clean install'
             }
         }
-
         stage('Test') {
             steps {
-                sh 'mvn test'
-            }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
+                bat 'mvn test'
             }
         }
-
-        stage('Deploy') {
+        stage('Package') {
             steps {
-                echo "Deploying application..."
+                bat 'mvn package'
             }
         }
     }
